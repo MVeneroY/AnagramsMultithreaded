@@ -54,4 +54,15 @@ public class WordList {
         tail.next = node;
         tail = tail.next;
     }
+
+    public void pop(WordNode node, int group) {
+        lock.lock();
+        try {
+            if (node.group != -1) return;
+
+            node.group = group;
+            if (node == head) virtualHead = head.next;
+            else if (node == virtualHead) virtualHead = virtualHead.next;
+        } finally { lock.unlock(); }
+    }
 }

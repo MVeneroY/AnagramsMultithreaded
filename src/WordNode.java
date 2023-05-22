@@ -2,6 +2,7 @@ public class WordNode {
     
     public String word = null;
     public int[] frequency = null;
+    public int group = -1;
 
     WordNode next = null;
 
