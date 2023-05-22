@@ -6,6 +6,7 @@ public class WordList {
     WordNode head = null;
     WordNode virtualHead = null;
     WordNode tail = null;
+    int size = 0;
 
     Lock lock;
 
@@ -16,6 +17,7 @@ public class WordList {
     WordList(WordNode head) {
         this.head = head;
         this.lock = new ReentrantLock();
+        size++;
     }
 
     public Boolean isEmpty() { return this.head == null && this.virtualHead == null; }
@@ -40,6 +42,7 @@ public class WordList {
             head = node;
             head.next = tail;
             virtualHead = head;
+            size++;
 
             return;
         }
@@ -47,12 +50,14 @@ public class WordList {
         if (tail == null) {
             head.next = node;
             tail = head.next;
+            size++;
 
             return;
         }
 
         tail.next = node;
         tail = tail.next;
+        size++;
     }
 
     public void pop(WordNode node, int group) {
@@ -65,4 +70,6 @@ public class WordList {
             else if (node == virtualHead) virtualHead = virtualHead.next;
         } finally { lock.unlock(); }
     }
+
+    public int getSize() { return this.size; }
 }

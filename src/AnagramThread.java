@@ -3,6 +3,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AnagramThread implements Runnable {
 
     WordList list;
+    WordNode startingNode;
     AtomicInteger atomic;
     int counter;
 
@@ -13,9 +14,26 @@ public class AnagramThread implements Runnable {
 
     @Override
     public void run() {
-        // do this if anagram is found
-        counter = atomic.getAndIncrement();
-        System.out.println(counter);
+        if (startingNode == null || startingNode.next == null) return;
+        // System.out.println(startingNode.word + "; " + startingNode.next.word);
+        counter = -1;
+
+        WordNode curr = startingNode.next;
+        while (curr != null) {
+            if (curr.group != -1 || !Anagram.frequenciesMatch(startingNode.frequency, curr.frequency)) {
+                curr = curr.next;
+                continue;
+            }
+
+            if (counter == -1) counter = atomic.incrementAndGet();
+            System.out.println(counter);
+            startingNode.group = counter;
+            curr.group = counter;
+            curr = curr.next;
+        }
     }
     
+    public void setNode(WordNode startingNode) {
+        this.startingNode = startingNode;
+    }
 }
