@@ -46,8 +46,6 @@ public class Anagram {
      * Possible optimization: change the precondition so the function takes not strins, but
      * arrays or dictionaries containing the letter frequency of the original string
      * 
-     * TODO: Split function into frequency arrays and contrasting them
-     * 
      * @param str1  String
      * @param str2  String
      * @return      Boolean
