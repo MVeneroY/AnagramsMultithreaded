@@ -4,11 +4,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class SingleThreaded {
+public class Main {
     
     /**
      * Multithreaded section--------------------------------
@@ -19,10 +21,14 @@ public class SingleThreaded {
      * -----------------------------------------------------
      */
     
+    static final int n_threads = 4;
+    static AnagramThread[] threads;
+
     public static void main(String[] args) {
 
-        HashMap<Integer, ArrayList<String>> map = new HashMap<>();
-        ArrayList<String> wordList = new ArrayList<>();
+        threads = new AnagramThread[n_threads];
+        ConcurrentHashMap<Integer, ArrayList<String>> map = new ConcurrentHashMap<Integer, ArrayList<String>>();
+        ArrayList<String> wordList = new ArrayList<String>();
 
         String pathname;
         if (args.length == 0) pathname = "../data/words_alpha.txt";
@@ -43,19 +49,23 @@ public class SingleThreaded {
         } 
 
         long start = System.currentTimeMillis();
-        for (String word : wordList) {
-            int[] frequency = Anagram.getFrequency(word);
-            int hash = Arrays.hashCode(frequency);
 
-            if (map.containsKey(hash)) {
-                ArrayList<String> array = map.get(hash);
-                array.add(word);
-            } else {
-                ArrayList<String> array = new ArrayList<String>();
-                array.add(word);
-                map.put(hash, array);
-            }
-        }
+        ExecutorService executorService = Executors.newFixedThreadPool(n_threads);
+        // Replace with multithreaded section
+        // for (String word : wordList) {
+        //     int[] frequency = Anagram.getFrequency(word);
+        //     int hash = Arrays.hashCode(frequency);
+
+        //     if (map.containsKey(hash)) {
+        //         ArrayList<String> array = map.get(hash);
+        //         array.add(word);
+        //     } else {
+        //         ArrayList<String> array = new ArrayList<String>();
+        //         array.add(word);
+        //         map.put(hash, array);
+        //     }
+        // }
+        // Replace with multithreaded section
 
         TreeMap<String, ArrayList<String>> sorted = new TreeMap<>();
         for (ArrayList<String> array : map.values()) {
